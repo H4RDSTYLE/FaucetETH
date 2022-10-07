@@ -1,0 +1,83 @@
+html{
+  background-color: burlywood;
+}
+#linkBar{
+  text-align: center;
+  background-color: #000000;
+  padding: 4px 4px 4px 4px;
+}
+a{
+  color: #535353;
+  border: solid 1px #000000;
+  padding: 4px 4px 4px 4px;
+  margin: 4px 4px 4px 4px;
+  background-color: yellow;
+  font-weight: 1000;
+}
+a:hover{
+  background-color: whitesmoke;
+  color: #0067ff;
+}
+header{
+  text-align: center;
+}
+#logoHeader{
+  width: 15vh;
+  padding-bottom: 0.5vh;
+}
+#titleHeader{
+  margin-bottom: 0vh;
+}
+#prizes{
+  background-color: #fff5ee61;
+}
+#prizes tr{
+  text-align: center;
+}
+.centerDiv{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.centerDiv table{
+  align-self: center;
+  width: 15vw;
+  height: 33vh;
+}
+
+.centerDiv button{
+  margin-top: 0.5vh;
+  align-self: center;
+  width: 15vw;
+}
+
+.center{
+  text-align: center;
+}
+
+.bgBrown{
+  background-color: burlywood;
+}
+
+.marginLeft{
+  margin-left: 0.25vw;
+}
+
+#myLinkedin{
+  border: 0px;
+  padding: 4px 4px 4px 4px;
+  margin: 4px 4px 4px 4px;
+  background-color: burlywood;
+  font-weight: 1000;
+}
+
+#resultOfClaim{
+  border: solid 1px black;
+  background-color: rgb(93, 148, 10);
+  margin-top: 1vh;
+  margin-bottom: 0.5vh;
+  padding: 0.5vh;
+  align-self: center;
+  border-radius: 200px;
+}
