@@ -1,0 +1,43 @@
+version: "3.9"
+services:
+  mysql:
+    image: mysql:5.7.16
+    ports:
+      - "5555:5432"
+    environment:
+      MYSQL_ROOT_PASSWORD: yyMaa22!
+      MYSQL_DATABASE: faucet
+    networks: 
+      - app-net
+    volumes:
+     - ./mysql/data:/var/lib/mysql
+
+  backend:
+    image: backend:0.0.3
+    build:
+      context: faucet-eth-server
+      dockerfile: ./Dockerfile
+    networks: 
+      - app-net
+    ports:
+      - "8000:3011" 
+    environment:
+      DB: mysql
+      DB_PORT: 5432 
+      PORT: 3011
+  frontend:
+    image: frontend:0.0.3
+    build:
+      context: faucet-eth
+      dockerfile: ./Dockerfile
+    networks: 
+      - app-net
+    ports:
+    - "3001:80"
+    environment:
+      PORT: 8000
+
+networks:
+  app-net:
+    driver: bridge
+    name: app-net
