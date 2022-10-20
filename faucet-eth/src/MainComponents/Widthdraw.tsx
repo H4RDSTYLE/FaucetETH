@@ -16,7 +16,7 @@ class Widthdraw extends Component<MyProps> {
     handleWidthdraw = () =>{
         console.log("llamado");
         var quantity : HTMLInputElement = document.getElementById("quantity") as HTMLInputElement;
-        fetch('http://localhost:1234/widthdraw?wallet=' + this.props.wallet + '&&quantity=' + quantity.value)
+        fetch("http://"+window.location.hostname + ':8000/widthdraw?wallet=' + this.props.wallet + '&&quantity=' + quantity.value)
         .then(response => response.json())
         .then(json => console.log(json));
     }
