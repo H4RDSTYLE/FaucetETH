@@ -17,8 +17,7 @@ class Faucet extends Component<MyProps>{
     }
 
     handleClaim = () =>{
-        console.log("claimeando");
-        fetch('http://localhost:1234/claim?wallet=' + this.props.wallet)
+        fetch("http://"+window.location.hostname+ ':8000/claim?wallet=' + this.props.wallet)
         .then(response => response.json())
         .then(json => this.postClaimHandle(json));
     }
@@ -41,7 +40,7 @@ class Faucet extends Component<MyProps>{
     }
 
     getButton = async(wallet: string) =>{
-        fetch('http://localhost:1234/canLogin?wallet=' + wallet)
+        fetch("http://"+window.location.hostname+':8000/canLogin?wallet=' + wallet)
         .then(res =>res.json())
         .then(json => console.log(json))
         .catch(err => console.log('Solicitud fallida', err)); // Capturar errores

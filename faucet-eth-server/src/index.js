@@ -2,13 +2,16 @@ const express = require("express");
 const app = express();
 const {querier} = require("./bbdd");
 const {sendEther} = require("./ethereumSender");
+
 const msHasADay = 86400000;
   
-app.listen(1234, () => {
-  console.log(`Server listening on 1234`);
+app.listen(8000, () => {
+  console.log(`Server listening on 8000`);
+  createTableIfNotExists();
 });
 
 app.get('/login', async(req,res)=>{
+    console.log(`login`);
     var wallet = req.query.wallet;
     var isTheWalletRegistered = (await isRegistered(wallet));
     if(!isTheWalletRegistered){
@@ -16,14 +19,20 @@ app.get('/login', async(req,res)=>{
     }
     var response = "logged in as " + wallet;
     console.log(response);
+    res.header('Access-Control-Allow-Origin', "*");
+    res.header('Access-Control-Allow-Headers', "*");
     res.json(JSON.stringify(response));
 });
 app.get('/timeTillClaim', async(req,res)=>{
 
     var msLeft = ((msHasADay + await getLastClaim(req.query.wallet) - Date.now()));
+    res.header('Access-Control-Allow-Origin', "*");
+    res.header('Access-Control-Allow-Headers', "*");
     res.json(JSON.stringify(msLeft));
 });
 app.get('/claim', async (req, res)=>{
+    res.header('Access-Control-Allow-Origin', "*");
+    res.header('Access-Control-Allow-Headers', "*");
     var wallet = req.query.wallet;
     var response = "";
     try{
@@ -42,6 +51,8 @@ app.get('/claim', async (req, res)=>{
 });
 app.get('/jugar', (req, res)=>{
     var numAleatorio = Math.floor(Math.random()*(100+1));
+    res.header('Access-Control-Allow-Origin', "*");
+    res.header('Access-Control-Allow-Headers', "*");
     res.send(numAleatorio.toString());
 });
  
@@ -110,8 +121,7 @@ async function widthdraw(wallet, withdrawQuantity){
     var actualBalance = await getBalance(wallet);
     var totalBalance = actualBalance - withdrawQuantity;
     await setBalance(wallet, totalBalance);
-    sendEther(wallet, withdrawQuantity)
-    .then(set)
+    await sendEther(wallet, withdrawQuantity);
 }
 
 async function register(wallet){
@@ -135,4 +145,9 @@ async function isWidthdrawable(wallet, withdrawQuantity){
     return balance = await querier('SELECT `balance` from `walletInfo` where `wallet`="' + wallet + '"')
     .then(rows => rows[0].balance)
     .then(totalBalance => totalBalance>=withdrawQuantity?true:false)
+}
+
+async function createTableIfNotExists(){
+    await querier('CREATE TABLE IF NOT EXISTS `walletInfo` (`wallet` varchar(42) NOT NULL,`lastClaim` datetime DEFAULT NULL,`balance` bigint DEFAULT NULL,PRIMARY KEY (`wallet`))')
+    .then(console.log("query executed"));
 }

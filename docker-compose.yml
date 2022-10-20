@@ -3,37 +3,37 @@ services:
   mysql:
     image: mysql:5.7.16
     ports:
-      - "5555:5432"
+      - "3306:3306"
+    volumes:
+      - ./faucet.sql:/data/application/init.sql
     environment:
-      MYSQL_ROOT_PASSWORD: yyMaa22!
+      MYSQL_ALLOW_EMPTY_PASSWORD: yes
       MYSQL_DATABASE: faucet
     networks: 
       - app-net
-    volumes:
-     - ./mysql/data:/var/lib/mysql
 
   backend:
-    image: backend:0.0.3
+    image: backend:1.0.0
     build:
       context: faucet-eth-server
       dockerfile: ./Dockerfile
     networks: 
       - app-net
     ports:
-      - "8000:3011" 
+      - "8000:8000" 
     environment:
       DB: mysql
       DB_PORT: 5432 
       PORT: 3011
   frontend:
-    image: frontend:0.0.3
+    image: frontend:1.0.0
     build:
       context: faucet-eth
       dockerfile: ./Dockerfile
     networks: 
       - app-net
     ports:
-    - "3001:80"
+    - "80:80"
     environment:
       PORT: 8000
 

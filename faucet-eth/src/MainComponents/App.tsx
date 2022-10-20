@@ -8,6 +8,7 @@ import Login from './Login';
 import Widthdraw from './Widthdraw';
 
 class App extends Component {
+    urlDomain : string = window.location.hostname;
     state = {
         wallet: ''
     }
@@ -64,7 +65,7 @@ class App extends Component {
     }
 
     passLoginDataToServer = (wallet: string) => {
-        fetch('http://localhost:1234/login?wallet=' + wallet)
+        fetch("http://" + this.urlDomain + ':8000/login?wallet=' + wallet)
         .then(res =>res.json())
         .then(json => console.log(json))
         .catch(err => console.log('Solicitud fallida', err)); // Capturar errores
